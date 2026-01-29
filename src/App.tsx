@@ -5505,39 +5505,32 @@ const App = () => {
           </section>
           <section className="flex flex-col space-y-2">
             <div className="flex items-center px-1">
-              <div className="w-1 h-2.5 bg-cyan-600 rounded-full mr-1.5"></div>
+              <div className="w-1 h-2.5 bg-blue-600 rounded-full mr-1.5"></div>
               <h3 className="text-[10px] font-black text-slate-800 uppercase tracking-tighter">
                 生态资源支持
               </h3>
             </div>
-            <div className="flex-1 bg-gradient-to-br from-cyan-50 to-blue-50 rounded-[20px] border border-cyan-100 shadow-sm p-5 flex flex-col justify-between h-[240px]">
-              <div className="space-y-3.5">
-                {/* 具象问题引导 */}
-                <div className="space-y-2.5">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1 h-1 bg-cyan-600 rounded-full"></div>
-                    <span className="text-[12px] font-black text-slate-800">不会写BP？</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1 h-1 bg-cyan-600 rounded-full"></div>
-                    <span className="text-[12px] font-black text-slate-800">融资受阻？</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1 h-1 bg-cyan-600 rounded-full"></div>
-                    <span className="text-[12px] font-black text-slate-800">需要法律服务？</span>
-                  </div>
+            <div className="flex-1 bg-gradient-to-br from-blue-50 to-blue-100 rounded-[20px] border border-blue-200 shadow-sm p-5 flex flex-col justify-between h-[240px]">
+              <div className="space-y-3">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1 h-1 bg-blue-600 rounded-full"></div>
+                  <span className="text-[12px] font-black text-slate-800">不会写BP？</span>
                 </div>
-
-                <p className="text-[9px] text-slate-600 leading-relaxed pt-1">
-                  涵盖财税、法律、知识产权、投融资等10大类服务，一站式解决企业成长难题
-                </p>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1 h-1 bg-blue-600 rounded-full"></div>
+                  <span className="text-[12px] font-black text-slate-800">融资受阻？</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1 h-1 bg-blue-600 rounded-full"></div>
+                  <span className="text-[12px] font-black text-slate-800">需要法律服务？</span>
+                </div>
               </div>
               <button
                 onClick={() => {
                   setGenericTitle("生态资源支持");
                   setDynamicView("eco");
                 }}
-                className="w-full py-2.5 bg-cyan-600 text-white rounded-lg text-[9px] font-black flex items-center justify-center gap-1 active:bg-cyan-700 transition-colors shadow-sm"
+                className="w-full py-2.5 bg-blue-600 text-white rounded-lg text-[9px] font-black flex items-center justify-center gap-1 active:bg-blue-700 transition-colors shadow-sm"
               >
                 <Globe size={12} /> 查看生态资源
               </button>
