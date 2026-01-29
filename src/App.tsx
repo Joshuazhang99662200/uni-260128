@@ -5505,7 +5505,7 @@ const App = () => {
           </section>
           <section className="flex flex-col space-y-2">
             <div className="flex items-center px-1">
-              <div className="w-1 h-2.5 bg-purple-600 rounded-full mr-1.5"></div>
+              <div className="w-1 h-2.5 bg-cyan-600 rounded-full mr-1.5"></div>
               <h3 className="text-[10px] font-black text-slate-800 uppercase tracking-tighter">
                 生态资源支持
               </h3>
@@ -5515,15 +5515,15 @@ const App = () => {
                 setGenericTitle("生态资源支持");
                 setDynamicView("eco");
               }}
-              className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-gradient-to-br from-fuchsia-500 to-violet-600"
+              className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-gradient-to-br from-cyan-400 to-blue-500"
             >
               <div className="relative z-10">
-                <div className="text-3xl">🌱</div>
+                <div className="text-3xl inline-block" style={{ transform: 'rotate(180deg)' }}>🤲🏻</div>
                 <div className="mt-4">
                   <h3 className="text-[14px] font-black text-white leading-tight">
                     生态服务
                   </h3>
-                  <p className="text-[10px] text-fuchsia-100 mt-2 leading-tight">
+                  <p className="text-[10px] text-cyan-50 mt-2 leading-tight">
                     不会写BP？融资受阻？
                     <br />
                     需要法律服务？
@@ -5801,10 +5801,10 @@ const App = () => {
         ) : (
           <HomeContent />
         );
-      case "动态":
+      case "资源":
         if (dynamicView === "essence") return <LiveEssencePage />;
         if (dynamicView === "eco") {
-          // 生态服务路由（从动态页面进入）
+          // 生态服务路由（从资源页面进入）
           switch (ecoView) {
             case "shelf":
               return <EcoShelfPage />;
@@ -5836,7 +5836,7 @@ const App = () => {
 
         {!(activeTab === "首页" && homeView === "diagnosis") &&
           !(activeTab === "我的" && profileView !== "default") &&
-          !(activeTab === "动态" && dynamicView !== "default") &&
+          !(activeTab === "资源" && dynamicView !== "default") &&
           !showCS &&
           !showLiveBooking &&
           !showTicketCheckModal && (
@@ -5945,14 +5945,14 @@ const App = () => {
           )}
 
         {!(activeTab === "我的" && profileView !== "default") &&
-          !(activeTab === "动态" && dynamicView !== "default") &&
+          !(activeTab === "资源" && dynamicView !== "default") &&
           !showCS &&
           !showLiveBooking &&
           !showTicketCheckModal && (
             <nav className="absolute bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 flex justify-around items-center pt-3 pb-10 px-8 z-40">
               {[
                 { label: "首页", icon: <Home size={24} /> },
-                { label: "动态", icon: <Zap size={24} strokeWidth={1.5} /> },
+                { label: "资源", icon: <Zap size={24} strokeWidth={1.5} /> },
                 { label: "我的", icon: <User size={24} /> },
               ].map((tab) => (
                 <button
@@ -5961,7 +5961,7 @@ const App = () => {
                     setActiveTab(tab.label);
                     if (tab.label === "首页") setHomeView("default");
                     if (tab.label === "我的") setProfileView("default");
-                    if (tab.label === "动态") setDynamicView("default");
+                    if (tab.label === "资源") setDynamicView("default");
                   }}
                   className={`flex flex-col items-center transition-all ${
                     activeTab === tab.label
