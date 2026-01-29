@@ -5515,18 +5515,16 @@ const App = () => {
                 setGenericTitle("生态资源支持");
                 setDynamicView("eco");
               }}
-              className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-gradient-to-r from-blue-600 to-teal-400"
+              className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-gradient-to-bl from-teal-400 to-blue-600"
             >
               <div className="relative z-10">
                 <div className="text-3xl">🤝🏻</div>
                 <div className="mt-4">
                   <h3 className="text-[14px] font-black text-white leading-tight">
-                    - 一行万物 -<br/>生态服务中心
+                    - Acture Hub -<br/>生态服务中心
                   </h3>
                   <p className="text-[10px] text-white/90 mt-6 leading-tight">
-                    不会写BP？融资受阻？
-                    <br />
-                    需要法律服务？
+                    创业全周期服务，严选保障
                   </p>
                 </div>
               </div>
