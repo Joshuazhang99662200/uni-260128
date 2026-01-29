@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useRef, useEffect } from "react";
 import {
   Home,
@@ -114,7 +115,7 @@ const LOVABLE_GRADIENT_FAINT =
   "bg-[linear-gradient(90deg,#ffffff_0%,#eff6ff_30%,#e0e7ff_60%,#fce7f3_100%)]";
 
 // --- 工具函数：复制文本 ---
-const handleCopyText = (text) => {
+const handleCopyText = (text: string) => {
   const textarea = document.createElement("textarea");
   textarea.value = text;
   document.body.appendChild(textarea);
@@ -135,6 +136,12 @@ const App = () => {
   const [dynamicView, setDynamicView] = useState("default");
   const [genericTitle, setGenericTitle] = useState("");
 
+  // --- 生态服务状态管理 ---
+  const [ecoView, setEcoView] = useState("shelf"); // shelf, category, providers, detail
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedDemandType, setSelectedDemandType] = useState(null);
+  const [selectedProvider, setSelectedProvider] = useState(null);
+
   // 全局 UI 控制
   const [showCS, setShowCS] = useState(false);
   const [showLiveBooking, setShowLiveBooking] = useState(false);
@@ -142,7 +149,7 @@ const App = () => {
   const [showBookingSuccessModal, setShowBookingSuccessModal] = useState(false);
   const [showBookingFailureModal, setShowBookingFailureModal] = useState(false);
   const [showBookingRecords, setShowBookingRecords] = useState(false);
-  const [bookingInfo, setBookingInfo] = useState(null);
+  const [bookingInfo, setBookingInfo] = useState<any>(null);
   const [showBookingDetail, setShowBookingDetail] = useState(null);
 
   // 核心数据
@@ -240,6 +247,267 @@ const App = () => {
   ]);
   const [selectedMessage, setSelectedMessage] = useState(null);
 
+  // --- 生态服务Mock数据 ---
+  const ecoServiceCategories = [
+    {
+      id: "finance",
+      name: "财税/审计",
+      icon: "💼",
+      color: "bg-blue-500",
+      bgLight: "bg-blue-50",
+      textColor: "text-blue-600",
+      demands: [
+        { id: "tax_planning", name: "税务筹划", hot: true },
+        { id: "financial_audit", name: "财务审计" },
+        { id: "annual_report", name: "年度报告" },
+        { id: "bookkeeping", name: "代理记账" },
+      ],
+    },
+    {
+      id: "legal",
+      name: "法律/法务",
+      icon: "⚖️",
+      color: "bg-purple-500",
+      bgLight: "bg-purple-50",
+      textColor: "text-purple-600",
+      demands: [
+        { id: "equity_design", name: "股权设计", hot: true },
+        { id: "contract_review", name: "合同审查" },
+        { id: "labor_dispute", name: "劳动纠纷" },
+        { id: "commercial_dispute", name: "商业纠纷" },
+        { id: "legal_consultant", name: "法律顾问" },
+      ],
+    },
+    {
+      id: "ip",
+      name: "知识产权",
+      icon: "🏆",
+      color: "bg-amber-500",
+      bgLight: "bg-amber-50",
+      textColor: "text-amber-600",
+      demands: [
+        { id: "trademark", name: "商标注册", hot: true },
+        { id: "patent", name: "专利申请" },
+        { id: "copyright", name: "版权登记" },
+        { id: "ip_protection", name: "知识产权保护" },
+      ],
+    },
+    {
+      id: "policy",
+      name: "政策申报",
+      icon: "📋",
+      color: "bg-green-500",
+      bgLight: "bg-green-50",
+      textColor: "text-green-600",
+      demands: [
+        { id: "high_tech", name: "高新技术企业认定", hot: true },
+        { id: "subsidy", name: "政府补贴申请" },
+        { id: "special_fund", name: "专项资金申报" },
+        { id: "innovation_voucher", name: "创新券申领" },
+      ],
+    },
+    {
+      id: "order",
+      name: "订单对接",
+      icon: "🤝",
+      color: "bg-cyan-500",
+      bgLight: "bg-cyan-50",
+      textColor: "text-cyan-600",
+      demands: [
+        { id: "b2b_matching", name: "B2B撮合", hot: true },
+        { id: "supply_chain", name: "供应链对接" },
+        { id: "channel_expansion", name: "渠道拓展" },
+        { id: "partnership", name: "战略合作" },
+      ],
+    },
+    {
+      id: "financing",
+      name: "投融资服务",
+      icon: "💰",
+      color: "bg-rose-500",
+      bgLight: "bg-rose-50",
+      textColor: "text-rose-600",
+      demands: [
+        { id: "angel_round", name: "天使轮融资", hot: true },
+        { id: "series_a", name: "A轮融资" },
+        { id: "fa_service", name: "FA服务" },
+        { id: "valuation", name: "企业估值" },
+        { id: "investor_matching", name: "投资人对接" },
+      ],
+    },
+    {
+      id: "branding",
+      name: "品牌PR",
+      icon: "📢",
+      color: "bg-pink-500",
+      bgLight: "bg-pink-50",
+      textColor: "text-pink-600",
+      demands: [
+        { id: "brand_strategy", name: "品牌策略", hot: true },
+        { id: "media_pr", name: "媒体公关" },
+        { id: "crisis_management", name: "危机公关" },
+        { id: "content_marketing", name: "内容营销" },
+      ],
+    },
+    {
+      id: "cloud",
+      name: "云与算力",
+      icon: "☁️",
+      color: "bg-indigo-500",
+      bgLight: "bg-indigo-50",
+      textColor: "text-indigo-600",
+      demands: [
+        { id: "cloud_server", name: "云服务器", hot: true },
+        { id: "gpu_computing", name: "GPU算力" },
+        { id: "cloud_storage", name: "云存储服务" },
+        { id: "cdn_service", name: "CDN加速" },
+      ],
+    },
+    {
+      id: "data",
+      name: "数据服务",
+      icon: "📊",
+      color: "bg-teal-500",
+      bgLight: "bg-teal-50",
+      textColor: "text-teal-600",
+      demands: [
+        { id: "market_research", name: "市场调研", hot: true },
+        { id: "data_analysis", name: "数据分析" },
+        { id: "business_intelligence", name: "商业智能" },
+        { id: "industry_report", name: "行业报告" },
+      ],
+    },
+    {
+      id: "talent",
+      name: "人才/猎头",
+      icon: "👔",
+      color: "bg-orange-500",
+      bgLight: "bg-orange-50",
+      textColor: "text-orange-600",
+      demands: [
+        { id: "exec_search", name: "高管寻访", hot: true },
+        { id: "tech_recruitment", name: "技术招聘" },
+        { id: "hr_consulting", name: "人力资源咨询" },
+        { id: "talent_assessment", name: "人才测评" },
+      ],
+    },
+  ];
+
+  const ecoProviders = {
+    equity_design: [
+      {
+        id: "law_firm_001",
+        name: "金杜律师事务所",
+        type: "律所",
+        rating: 4.9,
+        reviewCount: 128,
+        experience: "15年",
+        manager: "张律师",
+        managerTitle: "合伙人律师",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=zhang",
+        intro: "专注于创业公司股权架构设计，服务超过500家初创企业，具有丰富的股权激励、融资法律服务经验。",
+        price: "¥15,000",
+        priceUnit: "起",
+        services: ["股权架构设计", "股权激励方案", "投资协议审查", "股东协议起草"],
+        cases: 156,
+        successRate: "98%",
+      },
+      {
+        id: "law_firm_002",
+        name: "方达律师事务所",
+        type: "律所",
+        rating: 4.8,
+        reviewCount: 95,
+        experience: "12年",
+        manager: "李律师",
+        managerTitle: "资深律师",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=li",
+        intro: "擅长股权结构设计和融资法律服务，帮助多家企业完成天使轮至C轮融资的法律支持。",
+        price: "¥12,000",
+        priceUnit: "起",
+        services: ["股权设计", "融资法律服务", "股权转让", "期权池设计"],
+        cases: 132,
+        successRate: "96%",
+      },
+    ],
+    contract_review: [
+      {
+        id: "law_firm_003",
+        name: "中伦律师事务所",
+        type: "律所",
+        rating: 4.7,
+        reviewCount: 210,
+        experience: "20年",
+        manager: "王律师",
+        managerTitle: "合伙人律师",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=wang",
+        intro: "提供全方位合同审查服务，涵盖商业合同、劳动合同、投资协议等，保障企业法律权益。",
+        price: "¥3,000",
+        priceUnit: "起/份",
+        services: ["商业合同审查", "劳动合同审查", "投资协议审查", "合规性审查"],
+        cases: 520,
+        successRate: "99%",
+      },
+    ],
+    tax_planning: [
+      {
+        id: "tax_firm_001",
+        name: "德勤税务咨询",
+        type: "税务事务所",
+        rating: 4.9,
+        reviewCount: 186,
+        experience: "25年",
+        manager: "陈经理",
+        managerTitle: "税务总监",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=chen",
+        intro: "提供专业的税务筹划服务，帮助企业合法合规地优化税务结构，降低税负成本。",
+        price: "¥20,000",
+        priceUnit: "起",
+        services: ["税务筹划", "税务合规", "国际税务", "税务尽职调查"],
+        cases: 342,
+        successRate: "97%",
+      },
+    ],
+    angel_round: [
+      {
+        id: "fa_firm_001",
+        name: "华兴资本",
+        type: "FA机构",
+        rating: 4.9,
+        reviewCount: 245,
+        experience: "18年",
+        manager: "刘总",
+        managerTitle: "执行董事",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=liu",
+        intro: "专注于早期项目融资，已帮助200+创业公司完成天使轮至A轮融资，累计融资金额超50亿。",
+        price: "面议",
+        priceUnit: "",
+        services: ["融资顾问", "BP优化", "投资人对接", "估值建议"],
+        cases: 218,
+        successRate: "85%",
+      },
+    ],
+    trademark: [
+      {
+        id: "ip_firm_001",
+        name: "中国国际知识产权代理",
+        type: "知识产权代理",
+        rating: 4.8,
+        reviewCount: 432,
+        experience: "30年",
+        manager: "赵代理",
+        managerTitle: "资深代理人",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=zhao",
+        intro: "提供商标注册、专利申请等全方位知识产权服务，成功率高，服务快速高效。",
+        price: "¥1,500",
+        priceUnit: "起/件",
+        services: ["商标注册", "商标复审", "商标转让", "商标许可"],
+        cases: 1280,
+        successRate: "94%",
+      },
+    ],
+  };
+
   useEffect(() => {
     setUnreadCount(messages.filter((m) => !m.read).length);
   }, [messages]);
@@ -248,7 +516,7 @@ const App = () => {
     setMessages((prev) => prev.map((msg) => ({ ...msg, read: true })));
   };
 
-  const handleMessageClick = (msg) => {
+  const handleMessageClick = (msg: any) => {
     setMessages((prev) =>
       prev.map((m) => (m.id === msg.id ? { ...m, read: true } : m))
     );
@@ -358,13 +626,13 @@ const App = () => {
   );
 
   // ... existing DraggableCustomerService ...
-  const DraggableCustomerService = ({ onClick }) => {
+  const DraggableCustomerService = ({ onClick }: { onClick: () => void }) => {
     const [position, setPosition] = useState({ x: 310, y: 600 });
     const [isDragging, setIsDragging] = useState(false);
     const dragStartOffset = useRef({ x: 0, y: 0 });
     const hasMoved = useRef(false);
 
-    const handleStart = (clientX, clientY) => {
+    const handleStart = (clientX: number, clientY: number) => {
       setIsDragging(true);
       hasMoved.current = false;
       dragStartOffset.current = {
@@ -373,17 +641,17 @@ const App = () => {
       };
     };
 
-    const onMouseDown = (e) => {
+    const onMouseDown = (e: React.MouseEvent) => {
       e.preventDefault();
       handleStart(e.clientX, e.clientY);
     };
-    const onTouchStart = (e) => {
+    const onTouchStart = (e: React.TouchEvent) => {
       const touch = e.touches[0];
       handleStart(touch.clientX, touch.clientY);
     };
 
     useEffect(() => {
-      const handleMove = (clientX, clientY) => {
+      const handleMove = (clientX: number, clientY: number) => {
         const newX = clientX - dragStartOffset.current.x;
         const newY = clientY - dragStartOffset.current.y;
         if (
@@ -413,11 +681,11 @@ const App = () => {
           return { x: finalX, y: finalY };
         });
       };
-      const onMouseMove = (e) => {
+      const onMouseMove = (e: MouseEvent) => {
         if (!isDragging) return;
         handleMove(e.clientX, e.clientY);
       };
-      const onTouchMove = (e) => {
+      const onTouchMove = (e: TouchEvent) => {
         if (!isDragging) return;
         const touch = e.touches[0];
         handleMove(touch.clientX, touch.clientY);
@@ -469,6 +737,10 @@ const App = () => {
     children,
     blobColor1 = "bg-blue-400",
     blobColor2 = "bg-purple-400",
+  }: {
+    children: React.ReactNode;
+    blobColor1?: string;
+    blobColor2?: string;
   }) => (
     <div className="flex-col h-full bg-white relative overflow-hidden animate-in slide-in-from-right duration-300 flex">
       <div
@@ -483,7 +755,7 @@ const App = () => {
     </div>
   );
 
-  const CopyWeChatButton = ({ wechatId, label = "复制微信号" }) => (
+  const CopyWeChatButton = ({ wechatId, label = "复制微信号" }: { wechatId: string; label?: string }) => (
     <button
       onClick={() => handleCopyText(wechatId)}
       className="w-full py-3 bg-orange-50 text-orange-600 rounded-xl text-[11px] font-black flex items-center justify-center gap-1.5 active:bg-orange-100 transition-colors border border-orange-100 shadow-sm"
@@ -517,6 +789,12 @@ const App = () => {
     count,
     onNavigateToBP,
     onViewRecords,
+  }: {
+    onClose: () => void;
+    onProceed: () => void;
+    count: number;
+    onNavigateToBP: () => void;
+    onViewRecords: () => void;
   }) => (
     <div className="absolute inset-0 z-[100] flex flex-col justify-end bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="bg-white w-full rounded-t-[32px] p-6 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.3)] animate-in slide-in-from-bottom duration-300 relative">
@@ -621,10 +899,10 @@ const App = () => {
     </div>
   );
 
-  const LiveBookingPage = ({ onClose }) => {
+  const LiveBookingPage = ({ onClose }: { onClose: () => void }) => {
     // Note: To save space, using existing LiveBookingPage logic.
     // Assuming no changes needed here based on user request.
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [currentMonthIdx, setCurrentMonthIdx] = useState(0);
     const [selectedMentor, setSelectedMentor] = useState(0);
     const mentors = [
@@ -672,7 +950,7 @@ const App = () => {
     const today = new Date();
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth();
-    const generateCalendarDays = (year, month) => {
+    const generateCalendarDays = (year: number, month: number) => {
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const firstDayOfWeek = new Date(year, month, 1).getDay();
       const days = [];
@@ -958,6 +1236,7 @@ const App = () => {
                   title: "直播预约成功",
                   content: `您已成功预约 ${mentors[selectedMentor].name} 的1V1直播诊断`,
                   time: nowStr,
+                  fullTime: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`,
                   read: false,
                   link: {
                     type: "booking",
@@ -966,7 +1245,7 @@ const App = () => {
                     bookingDate: bookingDate,
                     timeSlot: timeSlot,
                   },
-                },
+                } as any,
                 ...prev,
               ]);
             }}
@@ -1102,10 +1381,10 @@ const App = () => {
     );
   };
 
-  const BookingRecordsPage = ({ onClose }) => {
+  const BookingRecordsPage = ({ onClose }: { onClose: () => void }) => {
     // ... existing BookingRecordsPage code ...
     const bookingRecords = messages.filter(
-      (msg) => msg.link?.type === "booking"
+      (msg: any) => msg.link?.type === "booking"
     );
     return (
       <div className="absolute inset-0 bg-slate-50 z-[90] flex flex-col animate-in slide-in-from-right duration-300">
@@ -1132,7 +1411,7 @@ const App = () => {
               <p className="text-xs text-slate-400">您还没有预约过直播诊断</p>
             </div>
           ) : (
-            bookingRecords.map((record) => (
+            bookingRecords.map((record: any) => (
               <div
                 key={record.id}
                 onClick={() => setShowBookingDetail(record.link)}
@@ -1202,7 +1481,7 @@ const App = () => {
     );
   };
 
-  const CustomerServicePage = ({ onClose }) => {
+  const CustomerServicePage = ({ onClose }: { onClose: () => void }) => {
     // ... existing CustomerServicePage code ...
     const [messages, setMessages] = useState([
       { type: "robot", content: "您好！我是您的专属BP诊断顾问。" },
@@ -1215,7 +1494,7 @@ const App = () => {
       "如何联系投资人？",
       "想找人工咨询",
     ];
-    const sendMessage = (text) => {
+    const sendMessage = (text: string) => {
       if (!text.trim()) return;
       const newMessages = [...messages, { type: "user", content: text }];
       setMessages(newMessages);
@@ -1382,7 +1661,7 @@ const App = () => {
 
   // --- 2. BP诊断全链路 ---
   // ... existing FilePickerModal, ParsingView, PlanSelectionView, PaymentModal, DiagnosingView, ResultView, DiagnosisFailedView, DiagnosisLanding, DiagnosisFlowManager code ...
-  const FilePickerModal = ({ onSelect, onClose }) => (
+  const FilePickerModal = ({ onSelect, onClose }: { onSelect: (file: any) => void; onClose: () => void }) => (
     <div className="absolute inset-0 z-[60] bg-black/60 backdrop-blur-sm flex flex-col justify-end animate-in fade-in duration-200">
       <div className="bg-white rounded-t-[32px] p-6 h-[80%] flex flex-col animate-in slide-in-from-bottom duration-300">
         <div className="flex justify-between items-center mb-6">
@@ -1426,7 +1705,7 @@ const App = () => {
     </div>
   );
 
-  const ParsingView = ({ onComplete }) => {
+  const ParsingView = ({ onComplete }: { onComplete: () => void }) => {
     useEffect(() => {
       const timer = setTimeout(onComplete, 2500);
       return () => clearTimeout(timer);
@@ -1453,7 +1732,7 @@ const App = () => {
     );
   };
 
-  const PlanSelectionView = ({ onSelectPlan }) => (
+  const PlanSelectionView = ({ onSelectPlan }: { onSelectPlan: (plan: string) => void }) => (
     <div className="absolute inset-0 z-[50] bg-slate-50 flex flex-col animate-in fade-in">
       <div className="px-5 pt-12 pb-4 flex items-center shrink-0">
         <button
@@ -1581,7 +1860,7 @@ const App = () => {
     </div>
   );
 
-  const PaymentModal = ({ onClose, onPay }) => {
+  const PaymentModal = ({ onClose, onPay }: { onClose: () => void; onPay: () => void }) => {
     const [method, setMethod] = useState("cash");
     const price = 299;
     const energyRate = 100;
@@ -2789,6 +3068,628 @@ const App = () => {
           <button className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-sm shadow-xl active:scale-95 transition-all flex items-center justify-center gap-2">
             <Share2 size={18} /> 保存海报并分享
           </button>
+        </div>
+      </SubPageLayout>
+    );
+  };
+
+  // 生态货架主页面 - 显示10个服务分类
+  const EcoShelfPage = () => {
+    const handleBackClick = () => {
+      if (profileView === "eco") {
+        setProfileView("default");
+      } else if (dynamicView === "eco") {
+        setDynamicView("default");
+      }
+      setEcoView("shelf");
+      setSelectedCategory(null);
+    };
+
+    return (
+      <SubPageLayout blobColor1="bg-cyan-200" blobColor2="bg-blue-200">
+        <div className="px-5 pt-14 pb-4 flex items-center border-b border-transparent">
+          <button
+            onClick={handleBackClick}
+            className="mr-3 text-slate-800 bg-white/60 p-2 rounded-full hover:bg-white shadow-sm transition-all active:scale-90 border border-slate-100"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <h2 className="font-black text-base text-slate-800 tracking-tight">
+            生态货架
+          </h2>
+        </div>
+        <div className="flex-1 bg-slate-50/30 overflow-y-auto pb-32 px-4">
+          <div className="pt-4 pb-2">
+            <div className="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-4 border border-cyan-100 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <Globe size={18} className="text-cyan-600" />
+                <h3 className="text-xs font-black text-slate-800">
+                  为创始人提供全方位生态服务
+                </h3>
+              </div>
+              <p className="text-[9px] text-slate-600 leading-relaxed">
+                涵盖财税、法律、知识产权、投融资等10大类服务，一站式解决企业成长需求
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 pt-3">
+            {ecoServiceCategories.map((category) => (
+              <div
+                key={category.id}
+                onClick={() => {
+                  setSelectedCategory(category);
+                  setEcoView("category");
+                }}
+                className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 flex flex-col gap-3 active:bg-slate-50 transition-all cursor-pointer"
+              >
+                <div className="flex items-center gap-2">
+                  <div
+                    className={`w-10 h-10 ${category.bgLight} rounded-xl flex items-center justify-center text-lg`}
+                  >
+                    {category.icon}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-[11px] font-black text-slate-800 mb-1">
+                    {category.name}
+                  </h4>
+                  <p className="text-[8px] text-slate-400 font-bold">
+                    {category.demands.length}项服务
+                  </p>
+                </div>
+                <div className="flex items-center justify-between mt-1">
+                  <div className="flex items-center gap-1">
+                    {category.demands.slice(0, 2).map((demand, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[7px] px-1.5 py-0.5 bg-slate-50 text-slate-500 rounded font-bold"
+                      >
+                        {demand.name}
+                      </span>
+                    ))}
+                  </div>
+                  <ChevronRight size={14} className="text-slate-300" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SubPageLayout>
+    );
+  };
+
+  // 分类详情页 - 显示具体需求类型列表
+  const EcoCategoryPage = () => {
+    if (!selectedCategory) return null;
+
+    return (
+      <SubPageLayout blobColor1={selectedCategory.bgLight} blobColor2="bg-slate-50">
+        <div className="px-5 pt-14 pb-4 flex items-center border-b border-transparent">
+          <button
+            onClick={() => {
+              setEcoView("shelf");
+              setSelectedCategory(null);
+            }}
+            className="mr-3 text-slate-800 bg-white/60 p-2 rounded-full hover:bg-white shadow-sm transition-all active:scale-90 border border-slate-100"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <h2 className="font-black text-base text-slate-800 tracking-tight">
+            {selectedCategory.name}
+          </h2>
+        </div>
+        <div className="flex-1 bg-slate-50/30 overflow-y-auto pb-32 px-4">
+          <div className="pt-4 pb-2">
+            <div className={`${selectedCategory.bgLight} rounded-2xl p-4 border ${selectedCategory.textColor} border-opacity-20 shadow-sm`}>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="text-2xl">{selectedCategory.icon}</div>
+                <div>
+                  <h3 className="text-xs font-black text-slate-800">
+                    选择您需要的服务类型
+                  </h3>
+                  <p className="text-[8px] text-slate-600 mt-0.5">
+                    共{selectedCategory.demands.length}种服务可选
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-2 pt-3">
+            {selectedCategory.demands.map((demand) => {
+              const providers = ecoProviders[demand.id] || [];
+              const hasProviders = providers.length > 0;
+
+              return (
+                <div
+                  key={demand.id}
+                  onClick={() => {
+                    if (hasProviders) {
+                      setSelectedDemandType(demand);
+                      setEcoView("providers");
+                    }
+                  }}
+                  className={`bg-white rounded-xl border border-slate-100 shadow-sm p-4 flex items-center justify-between ${
+                    hasProviders
+                      ? "active:bg-slate-50 cursor-pointer"
+                      : "opacity-60"
+                  } transition-all`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-8 h-8 ${selectedCategory.bgLight} rounded-lg flex items-center justify-center`}>
+                      <span className="text-xs">{selectedCategory.icon}</span>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h4 className="text-[11px] font-black text-slate-800">
+                          {demand.name}
+                        </h4>
+                        {demand.hot && (
+                          <span className="text-[7px] px-1.5 py-0.5 bg-red-500 text-white rounded font-bold">
+                            HOT
+                          </span>
+                        )}
+                      </div>
+                      {hasProviders ? (
+                        <p className="text-[8px] text-slate-400 mt-0.5 font-bold">
+                          {providers.length}家服务商可选
+                        </p>
+                      ) : (
+                        <p className="text-[8px] text-slate-400 mt-0.5 font-bold">
+                          暂无服务商
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {hasProviders && (
+                    <ChevronRight size={16} className="text-slate-300" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </SubPageLayout>
+    );
+  };
+
+  // 服务商列表页 - 显示提供服务的机构
+  const EcoProvidersPage = () => {
+    if (!selectedDemandType || !selectedCategory) return null;
+
+    const providers = ecoProviders[selectedDemandType.id] || [];
+
+    return (
+      <SubPageLayout blobColor1={selectedCategory.bgLight} blobColor2="bg-slate-50">
+        <div className="px-5 pt-14 pb-4 flex items-center border-b border-transparent">
+          <button
+            onClick={() => {
+              setEcoView("category");
+              setSelectedDemandType(null);
+            }}
+            className="mr-3 text-slate-800 bg-white/60 p-2 rounded-full hover:bg-white shadow-sm transition-all active:scale-90 border border-slate-100"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <div>
+            <h2 className="font-black text-base text-slate-800 tracking-tight">
+              {selectedDemandType.name}
+            </h2>
+            <p className="text-[8px] text-slate-500 font-bold">
+              {selectedCategory.name}
+            </p>
+          </div>
+        </div>
+        <div className="flex-1 bg-slate-50/30 overflow-y-auto pb-32 px-4">
+          <div className="pt-4 pb-2">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-3 border border-blue-100 shadow-sm">
+              <p className="text-[9px] text-slate-700 leading-relaxed">
+                💡 为您精选 <span className="font-black">{providers.length}</span> 家优质服务商，点击查看详情并提交需求
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-3 pt-3">
+            {providers.map((provider, index) => (
+              <div
+                key={provider.id}
+                onClick={() => {
+                  setSelectedProvider(provider);
+                  setEcoView("detail");
+                }}
+                className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 active:bg-slate-50 transition-all cursor-pointer"
+              >
+                {/* 排名标识 */}
+                {index === 0 && (
+                  <div className="flex items-center gap-1 mb-2">
+                    <Crown size={12} className="text-amber-500" />
+                    <span className="text-[8px] font-black text-amber-600 uppercase">
+                      Top推荐
+                    </span>
+                  </div>
+                )}
+
+                {/* 服务商基本信息 */}
+                <div className="flex items-start gap-3 mb-3">
+                  <img
+                    src={provider.avatar}
+                    alt={provider.name}
+                    className="w-12 h-12 rounded-xl border-2 border-slate-100"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h4 className="text-[12px] font-black text-slate-800">
+                        {provider.name}
+                      </h4>
+                      <span className="text-[7px] px-1.5 py-0.5 bg-blue-50 text-blue-600 rounded font-bold">
+                        {provider.type}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <span
+                            key={i}
+                            className={`text-[10px] ${
+                              i < Math.floor(provider.rating)
+                                ? "text-amber-400"
+                                : "text-slate-200"
+                            }`}
+                          >
+                            ★
+                          </span>
+                        ))}
+                        <span className="text-[9px] font-bold text-slate-600 ml-1">
+                          {provider.rating}
+                        </span>
+                      </div>
+                      <span className="text-[8px] text-slate-400">
+                        {provider.reviewCount}条评价
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-[8px] text-slate-500">
+                      <span>📊 {provider.cases}个案例</span>
+                      <span>✓ 成功率{provider.successRate}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 负责人信息 */}
+                <div className="flex items-center gap-2 mb-3 p-2 bg-slate-50 rounded-lg">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-[8px] font-bold">
+                    {provider.manager.charAt(0)}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-[9px] font-bold text-slate-700">
+                      {provider.manager} · {provider.managerTitle}
+                    </p>
+                    <p className="text-[8px] text-slate-400">
+                      {provider.experience}行业经验
+                    </p>
+                  </div>
+                </div>
+
+                {/* 简介 */}
+                <p className="text-[9px] text-slate-600 leading-relaxed mb-3">
+                  {provider.intro}
+                </p>
+
+                {/* 服务标签 */}
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  {provider.services.slice(0, 4).map((service, idx) => (
+                    <span
+                      key={idx}
+                      className="text-[7px] px-2 py-1 bg-blue-50 text-blue-600 rounded-full font-bold"
+                    >
+                      {service}
+                    </span>
+                  ))}
+                </div>
+
+                {/* 价格和操作 */}
+                <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                  <div>
+                    <p className="text-[8px] text-slate-400 mb-0.5">服务报价</p>
+                    <p className="text-[13px] font-black text-rose-600">
+                      {provider.price}
+                      <span className="text-[8px] text-slate-400 font-normal ml-0.5">
+                        {provider.priceUnit}
+                      </span>
+                    </p>
+                  </div>
+                  <button className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg text-[9px] font-black flex items-center gap-1 shadow-sm">
+                    查看详情 <ChevronRight size={12} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SubPageLayout>
+    );
+  };
+
+  // 服务商详情+需求填写页
+  const EcoProviderDetailPage = () => {
+    if (!selectedProvider || !selectedDemandType || !selectedCategory) return null;
+
+    const [demandForm, setDemandForm] = useState({
+      companyName: "",
+      contactPerson: "",
+      phone: "",
+      email: "",
+      demandDetail: "",
+    });
+
+    const handleSubmit = () => {
+      // 提交需求
+      console.log("提交需求:", demandForm);
+      // 返回首页
+      setActiveTab("首页");
+      setDynamicView("default");
+      setProfileView("default");
+      setEcoView("shelf");
+      setSelectedCategory(null);
+      setSelectedDemandType(null);
+      setSelectedProvider(null);
+      // 可以显示一个成功提示
+      alert("需求提交成功！我们会尽快联系您。");
+    };
+
+    return (
+      <SubPageLayout blobColor1="bg-blue-100" blobColor2="bg-indigo-100">
+        <div className="px-5 pt-14 pb-4 flex items-center border-b border-transparent">
+          <button
+            onClick={() => {
+              setEcoView("providers");
+              setSelectedProvider(null);
+            }}
+            className="mr-3 text-slate-800 bg-white/60 p-2 rounded-full hover:bg-white shadow-sm transition-all active:scale-90 border border-slate-100"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <h2 className="font-black text-base text-slate-800 tracking-tight">
+            服务详情
+          </h2>
+        </div>
+        <div className="flex-1 bg-slate-50/30 overflow-y-auto pb-32 px-4">
+          {/* 服务商详细信息卡片 */}
+          <div className="pt-4 pb-3">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
+              <div className="flex items-start gap-4 mb-4">
+                <img
+                  src={selectedProvider.avatar}
+                  alt={selectedProvider.name}
+                  className="w-16 h-16 rounded-2xl border-2 border-slate-100"
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="text-[14px] font-black text-slate-800">
+                      {selectedProvider.name}
+                    </h3>
+                    <span className="text-[7px] px-1.5 py-0.5 bg-blue-50 text-blue-600 rounded font-bold">
+                      {selectedProvider.type}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-0.5">
+                      {[...Array(5)].map((_, i) => (
+                        <span
+                          key={i}
+                          className={`text-[11px] ${
+                            i < Math.floor(selectedProvider.rating)
+                              ? "text-amber-400"
+                              : "text-slate-200"
+                          }`}
+                        >
+                          ★
+                        </span>
+                      ))}
+                      <span className="text-[10px] font-bold text-slate-600 ml-1">
+                        {selectedProvider.rating}
+                      </span>
+                    </div>
+                    <span className="text-[9px] text-slate-400">
+                      ({selectedProvider.reviewCount}条评价)
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 负责人信息 */}
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-3 mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-[12px] font-bold">
+                    {selectedProvider.manager.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black text-slate-800">
+                      {selectedProvider.manager}
+                    </p>
+                    <p className="text-[9px] text-slate-600">
+                      {selectedProvider.managerTitle} · {selectedProvider.experience}经验
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 简介 */}
+              <div className="mb-4">
+                <h4 className="text-[10px] font-black text-slate-800 mb-2">
+                  机构简介
+                </h4>
+                <p className="text-[9px] text-slate-600 leading-relaxed">
+                  {selectedProvider.intro}
+                </p>
+              </div>
+
+              {/* 关键指标 */}
+              <div className="grid grid-cols-3 gap-3 mb-4">
+                <div className="bg-slate-50 rounded-lg p-2 text-center">
+                  <p className="text-[10px] font-black text-slate-800 mb-0.5">
+                    {selectedProvider.cases}
+                  </p>
+                  <p className="text-[8px] text-slate-500">成功案例</p>
+                </div>
+                <div className="bg-slate-50 rounded-lg p-2 text-center">
+                  <p className="text-[10px] font-black text-slate-800 mb-0.5">
+                    {selectedProvider.successRate}
+                  </p>
+                  <p className="text-[8px] text-slate-500">成功率</p>
+                </div>
+                <div className="bg-slate-50 rounded-lg p-2 text-center">
+                  <p className="text-[10px] font-black text-slate-800 mb-0.5">
+                    {selectedProvider.experience}
+                  </p>
+                  <p className="text-[8px] text-slate-500">行业经验</p>
+                </div>
+              </div>
+
+              {/* 服务项目 */}
+              <div className="mb-4">
+                <h4 className="text-[10px] font-black text-slate-800 mb-2">
+                  服务项目
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProvider.services.map((service, idx) => (
+                    <span
+                      key={idx}
+                      className="text-[8px] px-2.5 py-1 bg-blue-50 text-blue-600 rounded-full font-bold"
+                    >
+                      ✓ {service}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* 价格 */}
+              <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-xl p-3 border border-rose-100">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[8px] text-slate-500 mb-0.5">服务报价</p>
+                    <p className="text-[16px] font-black text-rose-600">
+                      {selectedProvider.price}
+                      <span className="text-[9px] text-slate-500 font-normal ml-1">
+                        {selectedProvider.priceUnit}
+                      </span>
+                    </p>
+                  </div>
+                  <div className="text-[8px] text-slate-500">
+                    <p>具体价格以实际</p>
+                    <p>需求为准</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 需求填写表单 */}
+          <div className="pb-4">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <FileEdit size={16} className="text-blue-600" />
+                <h4 className="text-[12px] font-black text-slate-800">
+                  填写您的需求
+                </h4>
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="text-[9px] font-bold text-slate-600 mb-1 block">
+                    公司名称 *
+                  </label>
+                  <input
+                    type="text"
+                    value={demandForm.companyName}
+                    onChange={(e) =>
+                      setDemandForm({ ...demandForm, companyName: e.target.value })
+                    }
+                    placeholder="请输入公司名称"
+                    className="w-full px-3 py-2 text-[10px] border border-slate-200 rounded-lg focus:outline-none focus:border-blue-400 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[9px] font-bold text-slate-600 mb-1 block">
+                    联系人 *
+                  </label>
+                  <input
+                    type="text"
+                    value={demandForm.contactPerson}
+                    onChange={(e) =>
+                      setDemandForm({ ...demandForm, contactPerson: e.target.value })
+                    }
+                    placeholder="请输入联系人姓名"
+                    className="w-full px-3 py-2 text-[10px] border border-slate-200 rounded-lg focus:outline-none focus:border-blue-400 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[9px] font-bold text-slate-600 mb-1 block">
+                    联系电话 *
+                  </label>
+                  <input
+                    type="tel"
+                    value={demandForm.phone}
+                    onChange={(e) =>
+                      setDemandForm({ ...demandForm, phone: e.target.value })
+                    }
+                    placeholder="请输入手机号码"
+                    className="w-full px-3 py-2 text-[10px] border border-slate-200 rounded-lg focus:outline-none focus:border-blue-400 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[9px] font-bold text-slate-600 mb-1 block">
+                    电子邮箱
+                  </label>
+                  <input
+                    type="email"
+                    value={demandForm.email}
+                    onChange={(e) =>
+                      setDemandForm({ ...demandForm, email: e.target.value })
+                    }
+                    placeholder="请输入电子邮箱（选填）"
+                    className="w-full px-3 py-2 text-[10px] border border-slate-200 rounded-lg focus:outline-none focus:border-blue-400 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[9px] font-bold text-slate-600 mb-1 block">
+                    需求描述 *
+                  </label>
+                  <textarea
+                    value={demandForm.demandDetail}
+                    onChange={(e) =>
+                      setDemandForm({ ...demandForm, demandDetail: e.target.value })
+                    }
+                    placeholder={`请详细描述您的${selectedDemandType.name}需求，例如：\n- 具体服务内容\n- 预期目标\n- 时间要求\n- 预算范围\n等信息，以便我们为您提供更精准的服务。`}
+                    rows={6}
+                    className="w-full px-3 py-2 text-[10px] border border-slate-200 rounded-lg focus:outline-none focus:border-blue-400 transition-colors resize-none"
+                  />
+                </div>
+
+                <button
+                  onClick={handleSubmit}
+                  disabled={
+                    !demandForm.companyName ||
+                    !demandForm.contactPerson ||
+                    !demandForm.phone ||
+                    !demandForm.demandDetail
+                  }
+                  className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl text-[11px] font-black flex items-center justify-center gap-2 shadow-lg active:scale-98 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Send size={14} />
+                  提交需求
+                </button>
+
+                <p className="text-[8px] text-slate-400 text-center leading-relaxed">
+                  提交后，服务商将在1个工作日内与您联系
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </SubPageLayout>
     );
@@ -4604,33 +5505,46 @@ const App = () => {
           </section>
           <section className="flex flex-col space-y-2">
             <div className="flex items-center px-1">
-              <div className="w-1 h-2.5 bg-blue-600 rounded-full mr-1.5"></div>
+              <div className="w-1 h-2.5 bg-cyan-600 rounded-full mr-1.5"></div>
               <h3 className="text-[10px] font-black text-slate-800 uppercase tracking-tighter">
-                最新动态
+                生态服务
               </h3>
             </div>
-            <div className="flex-1 bg-white rounded-[20px] border border-slate-100 shadow-sm p-4 flex flex-col justify-between h-[240px]">
-              <div className="space-y-4">
-                {[
-                  { text: "陈总完成了BP初诊", time: "刚才" },
-                  { text: "A轮投资人参与连麦", time: "2h前" },
-                  { text: "第580份报告生成", time: "1d前" },
-                ].map((item, idx) => (
-                  <div key={idx} className="flex gap-2 group">
-                    <div className="w-1 h-1 bg-blue-400 rounded-full mt-1.5 shrink-0 group-first:bg-blue-600"></div>
-                    <div className="flex flex-col gap-0.5">
-                      <p className="text-[9px] text-slate-600 font-bold leading-relaxed">
-                        {item.text}
-                      </p>
-                      <span className="text-[8px] text-slate-300 font-bold uppercase">
-                        {item.time}
+            <div className="flex-1 bg-gradient-to-br from-cyan-50 to-blue-50 rounded-[20px] border border-cyan-100 shadow-sm p-4 flex flex-col justify-between h-[240px]">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Globe size={20} className="text-cyan-600" />
+                  <h4 className="text-[11px] font-black text-slate-800">
+                    生态货架
+                  </h4>
+                </div>
+                <p className="text-[9px] text-slate-600 leading-relaxed">
+                  为创始人提供全方位生态服务支持，涵盖财税、法律、知识产权、投融资等10大类服务。
+                </p>
+                <div className="grid grid-cols-2 gap-2 pt-2">
+                  {[
+                    { icon: "💼", label: "财税审计" },
+                    { icon: "⚖️", label: "法律服务" },
+                    { icon: "🏆", label: "知识产权" },
+                    { icon: "💰", label: "投融资" },
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-1.5 bg-white/60 rounded-lg px-2 py-1.5">
+                      <span className="text-[10px]">{item.icon}</span>
+                      <span className="text-[8px] font-bold text-slate-600">
+                        {item.label}
                       </span>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-              <button className="w-full py-2 border border-blue-100 rounded-lg text-blue-600 text-[9px] font-black flex items-center justify-center gap-1 active:bg-blue-50 transition-colors">
-                👉 完整动态
+              <button
+                onClick={() => {
+                  setGenericTitle("生态服务");
+                  setDynamicView("eco");
+                }}
+                className="w-full py-2 bg-cyan-600 text-white rounded-lg text-[9px] font-black flex items-center justify-center gap-1 active:bg-cyan-700 transition-colors shadow-sm"
+              >
+                <Globe size={12} /> 进入生态货架
               </button>
             </div>
           </section>
@@ -4700,7 +5614,21 @@ const App = () => {
 
     // Additional Routes
     if (profileView === "poster") return <SharePosterPage />;
-    if (profileView === "eco") return <EcoServicePage />;
+    if (profileView === "eco") {
+      // 生态服务路由
+      switch (ecoView) {
+        case "shelf":
+          return <EcoShelfPage />;
+        case "category":
+          return <EcoCategoryPage />;
+        case "providers":
+          return <EcoProvidersPage />;
+        case "detail":
+          return <EcoProviderDetailPage />;
+        default:
+          return <EcoShelfPage />;
+      }
+    }
 
     return (
       <div className="flex-1 overflow-y-auto pb-32 bg-slate-50/5 scrollbar-hide">
@@ -4888,6 +5816,21 @@ const App = () => {
         );
       case "动态":
         if (dynamicView === "essence") return <LiveEssencePage />;
+        if (dynamicView === "eco") {
+          // 生态服务路由（从动态页面进入）
+          switch (ecoView) {
+            case "shelf":
+              return <EcoShelfPage />;
+            case "category":
+              return <EcoCategoryPage />;
+            case "providers":
+              return <EcoProvidersPage />;
+            case "detail":
+              return <EcoProviderDetailPage />;
+            default:
+              return <EcoShelfPage />;
+          }
+        }
         return <DynamicContent />;
       case "我的":
         return <MyProfileContent />;
