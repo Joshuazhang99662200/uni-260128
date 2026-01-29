@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>能量系统 · 一图流</title>
+<title>任务中心 · 能量系统一图流</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
   :root {
@@ -21,6 +21,10 @@
     --indigo: #4f46e5;
     --indigo-bg: #eef2ff;
     --rose: #e11d48;
+    --cyan: #0891b2;
+    --cyan-bg: #ecfeff;
+    --orange: #ea580c;
+    --orange-bg: #fff7ed;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -31,7 +35,7 @@
   }
 
   .page {
-    max-width: 420px;
+    max-width: 440px;
     margin: 0 auto;
     padding: 32px 20px 48px;
   }
@@ -104,21 +108,15 @@
     background: #fffbeb;
   }
   .def-text p { font-size: 12px; color: var(--t2); line-height: 1.7; }
-  .formula {
-    background: var(--t1);
+  .def-text strong { color: var(--t1); }
+  .def-highlight {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
     border-radius: 12px;
-    padding: 10px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: white;
-    font-family: 'Inter', monospace;
-    font-size: 16px;
-    font-weight: 900;
+    padding: 14px;
+    text-align: center;
+    margin-bottom: 14px;
   }
-  .formula .op { color: #fbbf24; font-size: 13px; }
-  .formula .u { font-size: 11px; color: var(--t3); margin-left: -3px; }
+  .def-highlight p { font-size: 13px; font-weight: 700; color: var(--amber-d); }
   .props {
     display: flex;
     gap: 0;
@@ -129,33 +127,41 @@
   .prop {
     flex: 1;
     text-align: center;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     color: var(--t2);
     line-height: 1.4;
     border-right: 1px solid var(--border);
   }
   .prop:last-child { border-right: none; }
-  .prop em { font-style: normal; font-size: 15px; display: block; margin-bottom: 2px; }
+  .prop em { font-style: normal; font-size: 14px; display: block; margin-bottom: 2px; }
 
   /* Earn / Spend boxes */
   .zone {
     border-radius: 16px;
     padding: 16px;
+    margin-bottom: 12px;
   }
+  .zone:last-child { margin-bottom: 0; }
   .zone-earn { background: var(--green-bg); border: 1px solid #d1fae5; }
+  .zone-cycle { background: var(--cyan-bg); border: 1px solid #a5f3fc; }
+  .zone-special { background: var(--orange-bg); border: 1px solid #fed7aa; }
   .zone-spend { background: var(--indigo-bg); border: 1px solid #ddd6fe; }
 
   .zone-hdr {
-    display: flex; align-items: center; gap: 6px;
+    display: flex; align-items: center; gap: 8px;
     margin-bottom: 12px;
   }
-  .zone-hdr h3 { font-size: 14px; font-weight: 900; }
-  .zone-hdr .dot {
-    width: 24px; height: 24px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px;
+  .zone-hdr h3 { font-size: 13px; font-weight: 900; }
+  .zone-hdr .tag-type {
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 9px;
+    font-weight: 800;
   }
+  .tag-once { background: #d1fae5; color: var(--green); }
+  .tag-weekly { background: #a5f3fc; color: var(--cyan); }
+  .tag-random { background: #fed7aa; color: var(--orange); }
 
   .item {
     display: flex;
@@ -185,6 +191,7 @@
     flex-shrink: 0;
   }
   .b-earn { background: #d1fae5; color: var(--green); }
+  .b-discount { background: #fde68a; color: var(--amber-d); }
   .b-spend { background: #e0e7ff; color: var(--indigo); }
   .b-plan { background: #f1f5f9; color: var(--t3); }
   .tag {
@@ -197,6 +204,54 @@
   .tag-dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
   .tag-dot.on { background: var(--green); }
   .tag-dot.off { background: var(--t3); }
+
+  /* Milestone box */
+  .milestone-box {
+    background: rgba(255,255,255,0.9);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 10px;
+  }
+  .milestone-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--cyan);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .milestone-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #e2e8f0;
+  }
+  .milestone-row:last-child { border-bottom: none; }
+  .milestone-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .milestone-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--cyan);
+    color: white;
+    font-size: 11px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .milestone-label { font-size: 11px; font-weight: 700; }
+  .milestone-detail { font-size: 10px; color: var(--t3); }
+  .milestone-reward {
+    text-align: right;
+  }
+  .milestone-pts { font-size: 14px; font-weight: 900; color: var(--cyan); }
+  .milestone-sub { font-size: 9px; color: var(--t3); }
 
   /* Spend item with right column */
   .item-right {
@@ -239,7 +294,7 @@
     display: flex; align-items: flex-start; gap: 10px;
     padding: 12px 16px;
     border-bottom: 1px solid var(--border);
-    font-size: 12px; color: var(--t2); line-height: 1.6;
+    font-size: 11px; color: var(--t2); line-height: 1.6;
   }
   .rule:last-child { border-bottom: none; }
   .rule-ico {
@@ -249,6 +304,37 @@
   }
   .rule strong { color: var(--t1); }
   .warn { color: var(--rose); font-weight: 700; }
+  .highlight { color: var(--amber-d); font-weight: 700; }
+
+  /* Summary Box */
+  .summary-box {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    border-radius: 16px;
+    padding: 16px;
+    margin-top: 16px;
+    color: white;
+  }
+  .summary-title {
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .summary-item {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+  }
+  .summary-value { font-size: 18px; font-weight: 900; color: #fbbf24; }
+  .summary-label { font-size: 10px; color: #94a3b8; margin-top: 2px; }
 
   /* Footer */
   .ftr {
@@ -264,8 +350,8 @@
 
   <!-- HEADER -->
   <div class="hdr">
-    <div class="hdr-badge">ENERGY SYSTEM</div>
-    <h1>能量系统设计规范</h1>
+    <div class="hdr-badge">TASK CENTER</div>
+    <h1>任务中心 · 能量系统</h1>
     <p>一行科技 Acture Hub</p>
   </div>
 
@@ -273,25 +359,23 @@
   <div class="sec">
     <div class="sec-hdr">
       <div class="sec-num" style="background: linear-gradient(135deg,#fbbf24,#d97706);">1</div>
-      <div class="sec-title">能量的定义</div>
+      <div class="sec-title">能量的定义和使用规则</div>
     </div>
     <div class="def-block">
       <div class="def-row">
         <div class="def-icon">⚡</div>
         <div class="def-text">
-          <p><strong>能量 (pts)</strong> 是平台内的虚拟权益积分，通过完成任务获取，用于兑换 AI Agent 服务。</p>
+          <p><strong>能量</strong>是平台核心虚拟货币，通过完成任务获取，用于兑换平台 AI Agent 智能服务。</p>
         </div>
       </div>
-      <div class="formula">
-        100 <span class="u">pts</span>
-        <span class="op">=</span>
-        ¥1 <span class="u">RMB</span>
+      <div class="def-highlight">
+        <p>完成任务 → 获得能量 → 兑换 Agent 服务</p>
       </div>
       <div class="props">
+        <div class="prop"><em>♾️</em>永久有效</div>
         <div class="prop"><em>📥</em>可积累</div>
         <div class="prop"><em>💳</em>可消费</div>
-        <div class="prop"><em>🎁</em>可转赠</div>
-        <div class="prop"><em>🔒</em>不可提现</div>
+        <div class="prop"><em>🔒</em>不可转让</div>
       </div>
     </div>
   </div>
@@ -303,30 +387,133 @@
       <div class="sec-title">如何获取能量</div>
     </div>
 
+    <!-- 新手/一次性任务 -->
     <div class="zone zone-earn">
-      <div class="item">
-        <div class="item-ico" style="background:#fef3c7;">📤</div>
-        <div class="item-body">
-          <h4>分享平台 5 次</h4>
-          <p>累计分享海报/链接满 5 次 · 一次性</p>
-        </div>
-        <div class="badge b-earn">+45</div>
+      <div class="zone-hdr">
+        <h3>新手/一次性任务</h3>
+        <span class="tag-type tag-once">终身一次</span>
       </div>
       <div class="item">
-        <div class="item-ico" style="background:#dbeafe;">🔄</div>
+        <div class="item-ico" style="background:#fef3c7;">💳</div>
         <div class="item-body">
-          <h4>循环式拉新</h4>
-          <p>邀请好友提交 BP</p>
+          <h4>上传名片</h4>
+          <p>首次上传个人名片完成身份认证</p>
         </div>
-        <div class="badge b-earn">+60/人</div>
+        <div class="badge b-earn">+50</div>
       </div>
       <div class="item">
         <div class="item-ico" style="background:#f3e8ff;">👤</div>
         <div class="item-body">
-          <h4>完善个人信息</h4>
-          <p>填写完整个人资料 · 一次性</p>
+          <h4>完善基础信息</h4>
+          <p>填写完整个人资料（姓名、公司、职位等）</p>
         </div>
         <div class="badge b-earn">+50</div>
+      </div>
+      <div class="item">
+        <div class="item-ico" style="background:#dbeafe;">📤</div>
+        <div class="item-body">
+          <h4>累计分享 5 次</h4>
+          <p>分享海报/链接满 5 次（窗口无限制）</p>
+        </div>
+        <div class="badge b-discount">8.5折权益</div>
+      </div>
+    </div>
+
+    <!-- 周循环任务 -->
+    <div class="zone zone-cycle">
+      <div class="zone-hdr">
+        <h3>周循环任务（跑环式）</h3>
+        <span class="tag-type tag-weekly">每周重置</span>
+      </div>
+      <div class="item">
+        <div class="item-ico" style="background:#cffafe;">🔄</div>
+        <div class="item-body">
+          <h4>邀请好友上传 BP</h4>
+          <p>好友必须是新用户注册才计入</p>
+        </div>
+        <div class="badge b-earn">+30/人</div>
+      </div>
+
+      <!-- 里程碑奖励 -->
+      <div class="milestone-box">
+        <div class="milestone-title">
+          <span>🏆</span> 里程碑奖励（额外加成）
+        </div>
+        <div class="milestone-row">
+          <div class="milestone-info">
+            <div class="milestone-num">3</div>
+            <div>
+              <div class="milestone-label">满 3 人</div>
+              <div class="milestone-detail">额外送 30 能量</div>
+            </div>
+          </div>
+          <div class="milestone-reward">
+            <div class="milestone-pts">120</div>
+            <div class="milestone-sub">累计可得</div>
+          </div>
+        </div>
+        <div class="milestone-row">
+          <div class="milestone-info">
+            <div class="milestone-num" style="background: linear-gradient(135deg,#f59e0b,#d97706);">5</div>
+            <div>
+              <div class="milestone-label">满 5 人</div>
+              <div class="milestone-detail">额外送 120 能量</div>
+            </div>
+          </div>
+          <div class="milestone-reward">
+            <div class="milestone-pts" style="color: var(--amber-d);">300</div>
+            <div class="milestone-sub">累计可得 (满额)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 特殊任务 -->
+    <div class="zone zone-special">
+      <div class="zone-hdr">
+        <h3>特殊任务</h3>
+        <span class="tag-type tag-random">不定期</span>
+      </div>
+      <div class="item">
+        <div class="item-ico" style="background:#fef3c7;">📝</div>
+        <div class="item-body">
+          <h4>问卷调查</h4>
+          <p>不定期发放，按问卷篇幅定价</p>
+        </div>
+        <div class="badge b-earn">+20~50</div>
+      </div>
+      <div class="item">
+        <div class="item-ico" style="background:#dcfce7;">💡</div>
+        <div class="item-body">
+          <h4>反馈建议被采纳</h4>
+          <p>提交的产品建议被团队采纳实施</p>
+        </div>
+        <div class="badge b-earn">+20</div>
+      </div>
+    </div>
+
+    <!-- 能量收益汇总 -->
+    <div class="summary-box">
+      <div class="summary-title">
+        <span>📊</span> 能量收益上限
+      </div>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div class="summary-value">100</div>
+          <div class="summary-label">新手任务 (一次性)</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-value">300</div>
+          <div class="summary-label">单周最高 (满5人)</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-value">1,200+</div>
+          <div class="summary-label">单月最高 (4周满额)</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-value">不限</div>
+          <div class="summary-label">问卷+反馈 (累计)</div>
+        </div>
       </div>
     </div>
   </div>
@@ -343,11 +530,11 @@
       <div class="item">
         <div class="item-ico" style="background:#dbeafe;">🧐</div>
         <div class="item-body">
-          <h4>BP 深度诊断</h4>
-          <p>PLUS 版 · 深度商业优化建议书</p>
+          <h4>BP 诊断 Agent</h4>
+          <p>AI 智能分析商业计划书，提供专业诊断报告</p>
         </div>
         <div class="item-right">
-          <div class="badge b-spend">29,900 pts</div>
+          <div class="badge b-spend">待定价</div>
           <span class="tag tag-live"><span class="tag-dot on"></span>已上线</span>
         </div>
       </div>
@@ -355,7 +542,7 @@
         <div class="item-ico" style="background:#faf5ff;">🎯</div>
         <div class="item-body">
           <h4>导师对练 Agent</h4>
-          <p>AI 模拟投资人路演对练</p>
+          <p>模拟投资人对话，进行路演问答训练</p>
         </div>
         <div class="item-right">
           <div class="badge b-plan">待定价</div>
@@ -366,7 +553,7 @@
         <div class="item-ico" style="background:#fff1f2;">📊</div>
         <div class="item-body">
           <h4>股权推演 Agent</h4>
-          <p>股权结构与融资推演</p>
+          <p>股权分配、融资稀释等场景模拟推演</p>
         </div>
         <div class="item-right">
           <div class="badge b-plan">待定价</div>
@@ -377,7 +564,7 @@
         <div class="item-ico" style="background:#fef3c7;">📈</div>
         <div class="item-body">
           <h4>财务预测 Agent</h4>
-          <p>财务建模与收入预测</p>
+          <p>基于财务数据进行智能预测分析</p>
         </div>
         <div class="item-right">
           <div class="badge b-plan">待定价</div>
@@ -396,17 +583,17 @@
       <div class="rm-item">
         <div class="rm-dot off"></div>
         <div class="rm-lbl">导师对练</div>
-        <div class="rm-sub">Q2</div>
+        <div class="rm-sub">规划中</div>
       </div>
       <div class="rm-item">
         <div class="rm-dot off"></div>
         <div class="rm-lbl">股权推演</div>
-        <div class="rm-sub">Q3</div>
+        <div class="rm-sub">规划中</div>
       </div>
       <div class="rm-item">
         <div class="rm-dot off"></div>
         <div class="rm-lbl">财务预测</div>
-        <div class="rm-sub">Q4</div>
+        <div class="rm-sub">规划中</div>
       </div>
     </div>
   </div>
@@ -419,24 +606,32 @@
     </div>
     <div class="rules">
       <div class="rule">
-        <div class="rule-ico" style="background:#fffbeb;">💰</div>
-        <div><strong>100 pts = ¥1</strong>，支持纯现金 / 纯能量 / 混合支付，混合模式自动抵扣最大能量额度。</div>
+        <div class="rule-ico" style="background:#fffbeb;">⚡</div>
+        <div><strong>即时到账</strong>：完成任务后能量立即计入账户，所有收支记录可在"我的能量"页面查看。</div>
       </div>
       <div class="rule">
-        <div class="rule-ico" style="background:#faf5ff;">🔄</div>
-        <div>可消耗能量生成 <strong>兑换码 (HFDH-XXXX)</strong> 转赠好友，单码单次有效。</div>
+        <div class="rule-ico" style="background:#ecfeff;">🔄</div>
+        <div><strong>周任务重置</strong>：邀请任务进度按<span class="highlight">自然周重置</span>（周一00:00清零），已发放能量不收回。</div>
       </div>
       <div class="rule">
-        <div class="rule-ico" style="background:#eff6ff;">📅</div>
-        <div>能量自获取起 <strong>365 天有效</strong>，到期前 30/7 天系统提醒，过期自动清零。</div>
+        <div class="rule-ico" style="background:#fef3c7;">⏰</div>
+        <div><strong>月底促活</strong>：月底（29号前后）对未完成里程碑用户发送提醒，如"已邀3人，再邀2人可获120额外能量"。</div>
       </div>
       <div class="rule">
-        <div class="rule-ico" style="background:#fef3c7;">🎫</div>
-        <div>购买 PLUS 诊断额外赠送 <strong>直播券 x1</strong>（导师 1v1 连线 30 分钟），直播券不可单独用能量兑换。</div>
+        <div class="rule-ico" style="background:#f3e8ff;">💳</div>
+        <div><strong>先扣后用</strong>：使用服务前先扣除相应能量，余额不足无法使用，<strong>不可透支</strong>。</div>
+      </div>
+      <div class="rule">
+        <div class="rule-ico" style="background:#dcfce7;">🎫</div>
+        <div><strong>权益叠加</strong>：能量 + 8.5折权益可叠加，折扣仅对付费部分生效，能量抵扣部分不参与折扣。</div>
+      </div>
+      <div class="rule">
+        <div class="rule-ico" style="background:#fef2f2;">👤</div>
+        <div><strong>邀请规则</strong>：只有<strong>新用户注册</strong>才计入邀请人数，老用户不计入。</div>
       </div>
       <div class="rule">
         <div class="rule-ico" style="background:#fff1f2;">🚫</div>
-        <div>能量<strong>不可提现</strong>；刷量、虚假邀请等违规行为将 <span class="warn">冻结账户并清零余额</span>。</div>
+        <div>能量<strong>不可提现、不可转让</strong>；刷量、虚假邀请等违规行为将<span class="warn">冻结账户并清零余额</span>。</div>
       </div>
       <div class="rule">
         <div class="rule-ico" style="background:#f1f5f9;">⚖️</div>
@@ -447,8 +642,8 @@
 
   <!-- FOOTER -->
   <div class="ftr">
-    <p><span class="b">一行科技 Acture Hub</span> · 能量系统设计规范 v2.0</p>
-    <p>文档更新：2025.01</p>
+    <p><span class="b">一行科技 Acture Hub</span> · 任务中心 · 能量系统设计规范 v3.0</p>
+    <p>文档更新：2026.01</p>
   </div>
 
 </div>
