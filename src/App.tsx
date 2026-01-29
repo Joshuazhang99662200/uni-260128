@@ -5515,26 +5515,22 @@ const App = () => {
                 setGenericTitle("生态资源支持");
                 setDynamicView("eco");
               }}
-              className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-white"
+              className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-gradient-to-r from-blue-600 to-teal-400"
             >
-              {/* Blob背景 - 参考反馈中心设计 */}
-              <div className="absolute top-[-10%] right-[-20%] w-[90%] h-[45%] bg-blue-400 rounded-full blur-[80px] opacity-5 pointer-events-none mix-blend-multiply"></div>
-              <div className="absolute top-[-10%] left-[-20%] w-[80%] h-[45%] bg-cyan-300 rounded-full blur-[80px] opacity-5 pointer-events-none mix-blend-multiply"></div>
-
               <div className="relative z-10">
                 <div className="text-3xl">🤝🏻</div>
                 <div className="mt-4">
-                  <h3 className="text-[14px] font-black text-slate-800 leading-tight">
+                  <h3 className="text-[14px] font-black text-white leading-tight">
                     - 一行万物 -<br/>生态服务中心
                   </h3>
-                  <p className="text-[10px] text-slate-600 mt-2 leading-tight">
+                  <p className="text-[10px] text-white/90 mt-6 leading-tight">
                     不会写BP？融资受阻？
                     <br />
                     需要法律服务？
                   </p>
                 </div>
               </div>
-              <div className="relative z-10 w-full bg-cyan-600 text-white text-xs font-black py-3 rounded-xl flex items-center justify-center shadow-sm">
+              <div className="relative z-10 w-full bg-white/20 backdrop-blur-md text-white text-xs font-black py-3 rounded-xl flex items-center justify-center border border-white/20 shadow-sm">
                 查看生态资源 <Globe size={12} className="ml-1" />
               </div>
             </div>
