@@ -5529,40 +5529,37 @@ const App = () => {
               评价送能量！🎁
             </div>
           </div>
-          <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-r from-purple-600 via-purple-500 to-purple-400">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/80 via-purple-500/60 to-purple-400/40 backdrop-blur-sm"></div>
-            <div className="relative grid grid-cols-3 divide-x divide-white/20">
+          <div className="flex justify-center gap-3">
               <button
                 onClick={() => {
                   setActiveTab("profile");
                   setProfileView("feedback");
                 }}
-                className="flex flex-col items-center justify-center py-5 px-2 active:bg-white/10 transition-all"
+                className="flex flex-col items-center justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-purple-600 to-purple-500 active:scale-95 transition-all min-w-[100px]"
               >
                 <FileText size={20} className="text-white mb-2" />
-                <span className="text-[11px] font-bold text-white">BP诊断评价</span>
+                <span className="text-[11px] font-bold text-white text-left w-full text-center">BP诊断评价</span>
               </button>
               <button
                 onClick={() => {
                   setActiveTab("profile");
                   setProfileView("feedback");
                 }}
-                className="flex flex-col items-center justify-center py-5 px-2 active:bg-white/10 transition-all"
+                className="flex flex-col items-center justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-purple-500 to-purple-400 active:scale-95 transition-all min-w-[100px]"
               >
                 <Globe size={20} className="text-white mb-2" />
-                <span className="text-[11px] font-bold text-white">生态服务评价</span>
+                <span className="text-[11px] font-bold text-white text-left w-full text-center">生态服务评价</span>
               </button>
               <button
                 onClick={() => {
                   setActiveTab("profile");
                   setProfileView("feedback");
                 }}
-                className="flex flex-col items-center justify-center py-5 px-2 active:bg-white/10 transition-all"
+                className="flex flex-col items-center justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-purple-400 to-purple-300 active:scale-95 transition-all min-w-[100px]"
               >
                 <Sparkles size={20} className="text-white mb-2" />
-                <span className="text-[11px] font-bold text-white">功能体验评价</span>
+                <span className="text-[11px] font-bold text-white text-left w-full text-center">功能体验评价</span>
               </button>
-            </div>
           </div>
         </section>
       </div>
