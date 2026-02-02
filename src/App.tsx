@@ -5319,7 +5319,7 @@ const App = () => {
               onClick={() => setHomeView("diagnosis")}
               className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-52 bg-gradient-to-br from-blue-500 to-indigo-600"
             >
-              <div className="relative z-10">
+              <div className="relative z-10 text-center flex-1 flex flex-col justify-center">
                 <h3 className="text-[17px] font-black text-white leading-snug">
                   Uni 1.0<br/>BP诊断Agent
                 </h3>
@@ -5335,7 +5335,7 @@ const App = () => {
               onClick={() => setShowTicketCheckModal(true)}
               className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-52 bg-gradient-to-br from-orange-400 to-amber-500"
             >
-              <div className="relative z-10">
+              <div className="relative z-10 text-center flex-1 flex flex-col justify-center">
                 <h3 className="text-[17px] font-black text-white leading-snug">
                   创业导师<br/>直播连线
                 </h3>
@@ -5493,7 +5493,7 @@ const App = () => {
           </section>
           <section className="flex flex-col space-y-2">
             <div className="flex items-center px-1">
-              <div className="w-1 h-2.5 bg-cyan-600 rounded-full mr-1.5"></div>
+              <div className="w-1 h-2.5 bg-blue-600 rounded-full mr-1.5"></div>
               <h3 className="text-[10px] font-black text-slate-800 uppercase tracking-tighter">
                 生态资源支持
               </h3>
@@ -5503,39 +5503,66 @@ const App = () => {
                 setGenericTitle("生态资源支持");
                 setDynamicView("eco");
               }}
-              className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-gradient-to-bl from-teal-400 to-blue-600"
+              className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-gradient-to-br from-blue-500 to-indigo-600"
             >
-              <div className="relative z-10">
+              <div className="relative z-10 text-center flex-1 flex flex-col justify-center">
                 <h3 className="text-[17px] font-black text-white leading-snug">
                   Acture Hub<br/>生态服务中心
                 </h3>
-                <p className="text-[12px] text-white/90 mt-2 leading-relaxed">
+                <p className="text-[12px] text-blue-100 mt-2 leading-relaxed">
                   法律/财税/FA/订单等<br/>全周期服务，平台严选
                 </p>
               </div>
-              <div className="relative z-10 w-full bg-white text-teal-600 text-xs font-black py-3 rounded-xl flex items-center justify-center shadow-md">
+              <div className="relative z-10 w-full bg-white text-blue-600 text-xs font-black py-3 rounded-xl flex items-center justify-center shadow-md">
                 查看生态资源 <span className="ml-1.5">🤝🏻</span>
               </div>
             </div>
           </section>
         </div>
-        <section className="relative">
-          <button
-            onClick={() => {
-              setActiveTab("profile");
-              setProfileView("feedback");
-            }}
-            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl py-4 px-6 shadow-lg shadow-indigo-200/50 active:scale-95 transition-all flex items-center justify-center gap-3"
-          >
-            <MessageSquarePlus size={20} />
-            <span className="text-sm font-black">我要评价</span>
-            <ChevronRight size={16} />
-          </button>
-          <div className="absolute -top-3 -right-1 animate-bounce">
-            <div className="bg-red-500 text-white px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1 text-[11px] font-bold whitespace-nowrap">
-              <span>评价送能量！🎁</span>
+        <section className="px-4 mt-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center">
+              <div className="w-1 h-3 bg-purple-500 rounded-full mr-2"></div>
+              <h3 className="text-xs font-black text-slate-800">评价专区</h3>
             </div>
-            <div className="absolute -bottom-1 right-6 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-red-500"></div>
+            <div className="bg-red-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold">
+              评价送能量！🎁
+            </div>
+          </div>
+          <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-r from-purple-600 via-purple-500 to-purple-400">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/80 via-purple-500/60 to-purple-400/40 backdrop-blur-sm"></div>
+            <div className="relative grid grid-cols-3 divide-x divide-white/20">
+              <button
+                onClick={() => {
+                  setActiveTab("profile");
+                  setProfileView("feedback");
+                }}
+                className="flex flex-col items-center justify-center py-5 px-2 active:bg-white/10 transition-all"
+              >
+                <FileText size={20} className="text-white mb-2" />
+                <span className="text-[11px] font-bold text-white">BP诊断评价</span>
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab("profile");
+                  setProfileView("feedback");
+                }}
+                className="flex flex-col items-center justify-center py-5 px-2 active:bg-white/10 transition-all"
+              >
+                <Globe size={20} className="text-white mb-2" />
+                <span className="text-[11px] font-bold text-white">生态服务评价</span>
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab("profile");
+                  setProfileView("feedback");
+                }}
+                className="flex flex-col items-center justify-center py-5 px-2 active:bg-white/10 transition-all"
+              >
+                <Sparkles size={20} className="text-white mb-2" />
+                <span className="text-[11px] font-bold text-white">功能体验评价</span>
+              </button>
+            </div>
           </div>
         </section>
       </div>
