@@ -5535,7 +5535,7 @@ const App = () => {
                   setActiveTab("profile");
                   setProfileView("feedback");
                 }}
-                className="flex flex-col items-start justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-blue-500 to-indigo-500 active:scale-95 transition-all min-w-[100px]"
+                className="flex flex-col items-start justify-center py-4 px-4 rounded-2xl shadow-lg bg-[#6366f1] active:scale-95 transition-all min-w-[100px]"
               >
                 <FileText size={20} className="text-white mb-2" />
                 <span className="text-[11px] font-bold text-white text-left">BP诊断评价</span>
@@ -5545,7 +5545,7 @@ const App = () => {
                   setActiveTab("profile");
                   setProfileView("feedback");
                 }}
-                className="flex flex-col items-start justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-indigo-500 to-purple-500 active:scale-95 transition-all min-w-[100px]"
+                className="flex flex-col items-start justify-center py-4 px-4 rounded-2xl shadow-lg bg-[#6366f1] active:scale-95 transition-all min-w-[100px]"
               >
                 <Globe size={20} className="text-white mb-2" />
                 <span className="text-[11px] font-bold text-white text-left">生态服务评价</span>
@@ -5555,7 +5555,7 @@ const App = () => {
                   setActiveTab("profile");
                   setProfileView("feedback");
                 }}
-                className="flex flex-col items-start justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-purple-500 to-violet-500 active:scale-95 transition-all min-w-[100px]"
+                className="flex flex-col items-start justify-center py-4 px-4 rounded-2xl shadow-lg bg-[#6366f1] active:scale-95 transition-all min-w-[100px]"
               >
                 <Sparkles size={20} className="text-white mb-2" />
                 <span className="text-[11px] font-bold text-white text-left">功能体验评价</span>
