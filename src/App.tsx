@@ -103,6 +103,7 @@ import {
   Banknote,
   Landmark,
   FileSignature,
+  MessageSquarePlus,
 } from "lucide-react";
 
 // --- 样式定义 ---
@@ -5319,21 +5320,18 @@ const App = () => {
               className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-52 bg-gradient-to-br from-blue-600 to-indigo-700"
             >
               <div className="relative z-10">
-                <div className="text-3xl">🧐</div>
-                <div className="mt-4">
-                  <h3 className="text-[14px] font-black text-white leading-tight">
-                    - Uni 1.0 -<br />
+                <div className="mt-1">
+                  <p className="text-[10px] text-blue-200 font-bold tracking-wider uppercase">Uni 1.0</p>
+                  <h3 className="text-[18px] font-black text-white leading-tight mt-1">
                     BP深度诊断
                   </h3>
-                  <p className="text-[10px] text-blue-100 mt-2 leading-tight">
-                    投资人手把手
-                    <br />
-                    教你写BP
+                  <p className="text-[11px] text-blue-100 mt-3 leading-relaxed">
+                    投资人手把手教你写BP
                   </p>
                 </div>
               </div>
-              <div className="relative z-10 w-full bg-white/20 backdrop-blur-md text-white text-xs font-black py-3 rounded-xl flex items-center justify-center border border-white/20 shadow-sm">
-                立即使用 <ChevronRight size={12} className="ml-1" />
+              <div className="relative z-10 w-full bg-white text-blue-600 text-xs font-black py-3 rounded-xl flex items-center justify-center shadow-md">
+                <span className="mr-1.5">🧐</span> 立即使用 <ChevronRight size={12} className="ml-1" />
               </div>
             </div>
             <div
@@ -5341,22 +5339,18 @@ const App = () => {
               className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-52 bg-gradient-to-br from-orange-400 to-amber-500"
             >
               <div className="relative z-10">
-                <div className="text-3xl">📅</div>
-                <div className="mt-4">
-                  <h3 className="text-[14px] font-black text-white leading-tight">
-                    投资人
-                    <br />
-                    直播诊断
+                <div className="mt-1">
+                  <p className="text-[10px] text-orange-200 font-bold tracking-wider uppercase">1v1连线</p>
+                  <h3 className="text-[18px] font-black text-white leading-tight mt-1">
+                    投资人直播诊断
                   </h3>
-                  <p className="text-[10px] text-orange-100 mt-2 leading-tight">
-                    合伙人级别投资人
-                    <br />
-                    30分钟1v1连线直播诊断
+                  <p className="text-[11px] text-orange-100 mt-3 leading-relaxed">
+                    合伙人级别投资人<br/>30分钟直播诊断
                   </p>
                 </div>
               </div>
-              <div className="relative z-10 w-full bg-white/20 backdrop-blur-md text-white text-xs font-black py-3 rounded-xl flex items-center justify-center border border-white/20 shadow-sm">
-                立即预约 <Sparkles size={12} className="ml-1" />
+              <div className="relative z-10 w-full bg-white text-orange-500 text-xs font-black py-3 rounded-xl flex items-center justify-center shadow-md">
+                <span className="mr-1.5">📅</span> 立即预约 <Sparkles size={12} className="ml-1" />
               </div>
             </div>
           </div>
@@ -5518,63 +5512,39 @@ const App = () => {
               className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-gradient-to-bl from-teal-400 to-blue-600"
             >
               <div className="relative z-10">
-                <div className="text-3xl">🤝🏻</div>
-                <div className="mt-4">
-                  <h3 className="text-[14px] font-black text-white leading-tight">
-                    - Acture Hub -<br/>生态服务中心
+                <div className="mt-1">
+                  <p className="text-[10px] text-teal-100 font-bold tracking-wider uppercase">Acture Hub</p>
+                  <h3 className="text-[18px] font-black text-white leading-tight mt-1">
+                    生态服务中心
                   </h3>
-                  <p className="text-[10px] text-white/90 mt-6 leading-tight">
-                    创业全周期服务，严选保障
+                  <p className="text-[11px] text-white/90 mt-3 leading-relaxed">
+                    创业全周期服务<br/>严选保障
                   </p>
                 </div>
               </div>
-              <div className="relative z-10 w-full bg-white/20 backdrop-blur-md text-white text-xs font-black py-3 rounded-xl flex items-center justify-center border border-white/20 shadow-sm">
-                查看生态资源 <Globe size={12} className="ml-1" />
+              <div className="relative z-10 w-full bg-white text-teal-600 text-xs font-black py-3 rounded-xl flex items-center justify-center shadow-md">
+                <span className="mr-1.5">🤝🏻</span> 查看生态资源 <Globe size={12} className="ml-1" />
               </div>
             </div>
           </section>
         </div>
-        <section className="bg-white rounded-[24px] border border-slate-100 shadow-sm p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center text-purple-600">
-              <HelpCircle size={12} />
+        <section className="relative">
+          <button
+            onClick={() => {
+              setActiveTab("profile");
+              setProfileView("feedback");
+            }}
+            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl py-4 px-6 shadow-lg shadow-indigo-200/50 active:scale-95 transition-all flex items-center justify-center gap-3"
+          >
+            <MessageSquarePlus size={20} />
+            <span className="text-sm font-black">我要评价</span>
+            <ChevronRight size={16} />
+          </button>
+          <div className="absolute -top-3 -right-1 animate-bounce">
+            <div className="bg-red-500 text-white px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1 text-[11px] font-bold whitespace-nowrap">
+              <span>评价送能量！🎁</span>
             </div>
-            <h3 className="text-xs font-black text-slate-800">常见问题 FAQ</h3>
-          </div>
-          <div className="space-y-3">
-            {[
-              {
-                q: "诊断报告生成需要多久？",
-                a: "通常需要 3-5 分钟，完成后会通过短信通知。",
-              },
-              {
-                q: "如何获得直播连线机会？",
-                a: "完成BP诊断后可获得直播券，用于预约导师时间。",
-              },
-              {
-                q: "上传的BP文件安全吗？",
-                a: "严格保密，仅用于AI分析，不会用于其他商业用途。",
-              },
-            ].map((faq, i) => (
-              <div key={i} className="group">
-                <div className="flex items-start gap-2">
-                  <span className="text-[10px] font-black text-purple-500 mt-0.5">
-                    Q.
-                  </span>
-                  <p className="text-[10px] font-bold text-slate-700 leading-relaxed">
-                    {faq.q}
-                  </p>
-                </div>
-                <div className="flex items-start gap-2 mt-1 pl-4">
-                  <p className="text-[9px] text-slate-400 leading-relaxed">
-                    {faq.a}
-                  </p>
-                </div>
-                {i !== 2 && (
-                  <div className="h-[1px] bg-slate-50 w-full my-2"></div>
-                )}
-              </div>
-            ))}
+            <div className="absolute -bottom-1 right-6 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-red-500"></div>
           </div>
         </section>
       </div>
