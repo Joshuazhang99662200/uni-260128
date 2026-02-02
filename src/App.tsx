@@ -5535,30 +5535,30 @@ const App = () => {
                   setActiveTab("profile");
                   setProfileView("feedback");
                 }}
-                className="flex flex-col items-center justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-purple-600 to-purple-500 active:scale-95 transition-all min-w-[100px]"
+                className="flex flex-col items-start justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-blue-500 to-indigo-500 active:scale-95 transition-all min-w-[100px]"
               >
                 <FileText size={20} className="text-white mb-2" />
-                <span className="text-[11px] font-bold text-white text-left w-full text-center">BP诊断评价</span>
+                <span className="text-[11px] font-bold text-white text-left">BP诊断评价</span>
               </button>
               <button
                 onClick={() => {
                   setActiveTab("profile");
                   setProfileView("feedback");
                 }}
-                className="flex flex-col items-center justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-purple-500 to-purple-400 active:scale-95 transition-all min-w-[100px]"
+                className="flex flex-col items-start justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-indigo-500 to-purple-500 active:scale-95 transition-all min-w-[100px]"
               >
                 <Globe size={20} className="text-white mb-2" />
-                <span className="text-[11px] font-bold text-white text-left w-full text-center">生态服务评价</span>
+                <span className="text-[11px] font-bold text-white text-left">生态服务评价</span>
               </button>
               <button
                 onClick={() => {
                   setActiveTab("profile");
                   setProfileView("feedback");
                 }}
-                className="flex flex-col items-center justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-purple-400 to-purple-300 active:scale-95 transition-all min-w-[100px]"
+                className="flex flex-col items-start justify-center py-4 px-4 rounded-2xl shadow-lg bg-gradient-to-br from-purple-500 to-violet-500 active:scale-95 transition-all min-w-[100px]"
               >
                 <Sparkles size={20} className="text-white mb-2" />
-                <span className="text-[11px] font-bold text-white text-left w-full text-center">功能体验评价</span>
+                <span className="text-[11px] font-bold text-white text-left">功能体验评价</span>
               </button>
           </div>
         </section>
