@@ -5319,7 +5319,7 @@ const App = () => {
               onClick={() => setHomeView("diagnosis")}
               className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-52 bg-gradient-to-br from-blue-500 to-indigo-600"
             >
-              <div className="relative z-10 text-center flex-1 flex flex-col justify-center">
+              <div className="relative z-10 text-left flex-1 flex flex-col justify-center">
                 <h3 className="text-[17px] font-black text-white leading-snug">
                   Uni 1.0<br/>BP诊断Agent
                 </h3>
@@ -5335,7 +5335,7 @@ const App = () => {
               onClick={() => setShowTicketCheckModal(true)}
               className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-52 bg-gradient-to-br from-orange-400 to-amber-500"
             >
-              <div className="relative z-10 text-center flex-1 flex flex-col justify-center">
+              <div className="relative z-10 text-left flex-1 flex flex-col justify-center">
                 <h3 className="text-[17px] font-black text-white leading-snug">
                   创业导师<br/>直播连线
                 </h3>
@@ -5505,7 +5505,7 @@ const App = () => {
               }}
               className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-gradient-to-br from-blue-500 to-indigo-600"
             >
-              <div className="relative z-10 text-center flex-1 flex flex-col justify-center">
+              <div className="relative z-10 text-left flex-1 flex flex-col justify-center">
                 <h3 className="text-[17px] font-black text-white leading-snug">
                   Acture Hub<br/>生态服务中心
                 </h3>
