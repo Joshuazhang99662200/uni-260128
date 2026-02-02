@@ -5317,21 +5317,18 @@ const App = () => {
           <div className="grid grid-cols-2 gap-3">
             <div
               onClick={() => setHomeView("diagnosis")}
-              className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-52 bg-gradient-to-br from-blue-600 to-indigo-700"
+              className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-52 bg-gradient-to-br from-blue-500 to-indigo-600"
             >
               <div className="relative z-10">
-                <div className="mt-1">
-                  <p className="text-[10px] text-blue-200 font-bold tracking-wider uppercase">Uni 1.0</p>
-                  <h3 className="text-[18px] font-black text-white leading-tight mt-1">
-                    BP深度诊断
-                  </h3>
-                  <p className="text-[11px] text-blue-100 mt-3 leading-relaxed">
-                    投资人手把手教你写BP
-                  </p>
-                </div>
+                <h3 className="text-[17px] font-black text-white leading-snug">
+                  Uni 1.0<br/>BP诊断Agent
+                </h3>
+                <p className="text-[12px] text-blue-100 mt-2">
+                  投资人视角的优化建议
+                </p>
               </div>
               <div className="relative z-10 w-full bg-white text-blue-600 text-xs font-black py-3 rounded-xl flex items-center justify-center shadow-md">
-                <span className="mr-1.5">🧐</span> 立即使用 <ChevronRight size={12} className="ml-1" />
+                立即使用 <span className="ml-1.5">🚀</span>
               </div>
             </div>
             <div
@@ -5339,18 +5336,15 @@ const App = () => {
               className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-52 bg-gradient-to-br from-orange-400 to-amber-500"
             >
               <div className="relative z-10">
-                <div className="mt-1">
-                  <p className="text-[10px] text-orange-200 font-bold tracking-wider uppercase">1v1连线</p>
-                  <h3 className="text-[18px] font-black text-white leading-tight mt-1">
-                    投资人直播诊断
-                  </h3>
-                  <p className="text-[11px] text-orange-100 mt-3 leading-relaxed">
-                    合伙人级别投资人<br/>30分钟直播诊断
-                  </p>
-                </div>
+                <h3 className="text-[17px] font-black text-white leading-snug">
+                  创业导师<br/>直播连线
+                </h3>
+                <p className="text-[12px] text-orange-100 mt-2">
+                  30分钟导师深度咨询
+                </p>
               </div>
               <div className="relative z-10 w-full bg-white text-orange-500 text-xs font-black py-3 rounded-xl flex items-center justify-center shadow-md">
-                <span className="mr-1.5">📅</span> 立即预约 <Sparkles size={12} className="ml-1" />
+                立即预约 <span className="ml-1.5">📅</span>
               </div>
             </div>
           </div>
@@ -5512,18 +5506,15 @@ const App = () => {
               className="cursor-pointer relative overflow-hidden rounded-2xl p-4 shadow-lg active:scale-95 transition-all flex flex-col justify-between h-[240px] bg-gradient-to-bl from-teal-400 to-blue-600"
             >
               <div className="relative z-10">
-                <div className="mt-1">
-                  <p className="text-[10px] text-teal-100 font-bold tracking-wider uppercase">Acture Hub</p>
-                  <h3 className="text-[18px] font-black text-white leading-tight mt-1">
-                    生态服务中心
-                  </h3>
-                  <p className="text-[11px] text-white/90 mt-3 leading-relaxed">
-                    创业全周期服务<br/>严选保障
-                  </p>
-                </div>
+                <h3 className="text-[17px] font-black text-white leading-snug">
+                  Acture Hub<br/>生态服务中心
+                </h3>
+                <p className="text-[12px] text-white/90 mt-2 leading-relaxed">
+                  法律/财税/FA/订单等<br/>全周期服务，平台严选
+                </p>
               </div>
               <div className="relative z-10 w-full bg-white text-teal-600 text-xs font-black py-3 rounded-xl flex items-center justify-center shadow-md">
-                <span className="mr-1.5">🤝🏻</span> 查看生态资源 <Globe size={12} className="ml-1" />
+                查看生态资源 <span className="ml-1.5">🤝🏻</span>
               </div>
             </div>
           </section>
